@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出庫ページ</title>
+</head>
+<body>
+    <form method="get" action="/out">
+        <input type="text" name="search">
+        <button type="submit">検索</button>
+    </form><p>アイテム検索</p>
+    <p>ジャンル</p>
+    <a href="/out?genre=食品">食品</a>
+    <a href="/out?genre=衣類">衣類</a>
+    <a href="/out?genre=備品">備品</a>
+    <p>アイテム一覧</p>
+    <table>
+        <tr>
+            <th>名前</th>
+            <th>在庫数</th>
+        </tr>
+        <tr>
+            <td>りんご</td>
+            <td>13</td>
+        </tr>
+        <tr>
+            <td>制服</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>マスク(箱)</td>
+            <td>2</td>
+        </tr>
+    </table>
+    <a href="/">もどる</a>
+</body>
+</html>

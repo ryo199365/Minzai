@@ -1,0 +1,28 @@
+# --- Python キャッシュや中間ファイル ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# --- 仮想環境（venvなど） ---
+venv/
+env/
+.venv/
+
+# --- Flaskの設定や一時ファイル ---
+instance/
+*.log
+
+# --- IDE / エディタの設定 ---
+.vscode/
+.idea/
+*.swp
+
+# --- OSごとの不要ファイル ---
+.DS_Store
+Thumbs.db
+
+# --- アップロード画像など、ユーザーが追加したファイル ---
+static/uploads/

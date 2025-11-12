@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新規登録ページ</title>
+</head>
+
+<body>
+    <h2>新規アイテム登録</h2>
+
+    <form method="post" action="/register" enctype="multipart/form-data">
+        <p><label>アイテム名:
+                <input type="text" name="item_name" required>
+            </label>
+        </p>
+        <p>ジャンル選択:
+            <select name="item_genre" id="">
+                <option value="食品">食品</option>
+                <option value="衣類">衣類</option>
+                <option value="備品">備品</option>
+            </select>
+        </p>
+        <p><label>新ジャンルの追加（任意）:
+                <input type="text" name="new_genre"></label>
+        </p>
+        <p><label>初期在庫数:
+                <input type="number" name="quantity" min="0" required></label>
+
+        </p>
+        <p>アイテム画像のアップロード（任意） :
+            <input type="file" name="item_file">
+        </p>
+        <button type="submit">決定</button>
+    </form>
+    <a href="/">もどる</a>
+</body>
+
+</html>

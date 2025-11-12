@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アイテム削除画面</title>
+</head>
+
+<body>
+    <h1>アイテム削除</h1>
+
+    <!-- アイテム検索 -->
+    <form method="get" action="/delete">
+        <input type="text" name="search">
+        <button type="submit">検索</button>
+    </form>
+    <p>アイテム検索</p>
+
+    <!-- アイテム名編集 -->
+    <label for="item_name">アイテム名:</label>
+    <input type="text" id="item_name" name="item_name" value="りんご"><br><br>
+
+
+
+    <!-- 更新・戻るボタン -->
+    <button type="submit">更新</button>
+    <a href="/stock">戻る</a>
+</body>
+
+</html>

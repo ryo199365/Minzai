@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個別出庫ページ</title>
+</head>
+
+<body>
+    <form method="get" action="/out/id" enctype="multipart/form-data">
+        <label for="stock">現在在庫数:</label>
+    </form>
+    <form method="post" action="/out_id" enctype="multipart/form-data">
+        <p><label>出庫数:
+                <input type="number" name="quantity" min="0" required></label>
+        <p><label>出庫後在庫数:
+                <input type="number" name="quantity"></label>
+        <p><button type="submit">決定</button></p>
+    </form>
+
+
+    <a href="/">もどる</a>
+</body>
+
+</html>
