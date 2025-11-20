@@ -1,5 +1,5 @@
 import os
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,redirect
 from models import db,Genre,Item,Stock,StockHistory
 from werkzeug.utils import secure_filename
 
@@ -21,24 +21,72 @@ def top():
     return render_template('top.html') 
  # templateフォルダ内のtop.htmlを表示
 
-@app.route('/in' , methods=['GET','POST'])
-def stock_in() : 
-    # GET,POSTでもDBから全アイテムを取得(Itemとstockを結合して在庫数も取得)
-    items = db.session.query(Item,Stock).join(Stock).all()
-    
+@app.route('/in', methods=['GET', 'POST'])
+def stock_in():
+    # 最初に一覧用データを取得
+    items = db.session.query(Item, Stock).join(Stock).all()
+
     if request.method == 'POST':
-        # フォームから送られてきたデータを取得
-        item_id = int(request.form['item.id'])
+        # POSTされたデータ取得
+        item_id = int(request.form['item_id'])
         add_quantity = int(request.form['quantity'])
-    # テンプレートに渡す
-    return render_template('in.html')
-# templateフォルダ内のin.htmlを表示
+
+        # 対象の在庫を取得
+        stock = Stock.query.filter_by(item_id=item_id).first()
+
+        # 在庫数を増やす
+        stock.quantity += add_quantity
+
+        # DB保存
+        db.session.commit()
+
+        # 再読み込み（F5で二重送信を防ぐ）
+        return redirect('/in')
+
+    # GET の場合は一覧だけ表示
+    return render_template('in.html', items=items)
+
+
+# @app.route('/in' , methods=['GET','POST'])
+# def stock_in() : 
+#     # GET,POSTでもDBから全アイテムを取得(Itemとstockを結合して在庫数も取得)
+#     items = db.session.query(Item,Stock).join(Stock).all()
+    
+#     if request.method == 'POST':
+#         # フォームから送られてきたデータを取得
+#         item_id = int(request.form['item.id'])
+#         add_quantity = int(request.form['quantity'])
+#     # テンプレートに渡す
+#     return render_template('in.html')
+# # templateフォルダ内のin.htmlを表示
 
 
 
-@app.route('/out')
-def stock_out() : return render_template('out.html')
-# templateフォルダ内のout.htmlを表示
+@app.route('/out', methods=['GET', 'POST'])
+def stock_out():
+
+    # 在庫一覧（Item + Stock）
+    items = db.session.query(Item, Stock).join(Stock).all()
+
+    if request.method == 'POST':
+        item_id = int(request.form['item_id'])
+        out_quantity = int(request.form['quantity'])
+
+        # 出庫対象
+        stock = Stock.query.filter_by(item_id=item_id).first()
+
+        # 在庫チェック
+        if stock.quantity < out_quantity:
+            return "在庫が不足しています。", 400
+
+        # 在庫を減らす
+        stock.quantity -= out_quantity
+        db.session.commit()
+
+        return redirect('/out')
+
+    return render_template('out.html', items=items)
+
 
 @app.route('/register' , methods=['GET','POST'])
 def register():
@@ -76,8 +124,8 @@ def register():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             print("ファイルがアップロードされました:", filename)
-         # ここで保存やDB登録をする
-         # 確認用に出力（後でDB登録などに変更予定）
+        # ここで保存やDB登録をする
+        # 確認用に出力（後でDB登録などに変更予定）
         print("アイテム名:", item_name)
         print("ジャンル:", item_genre)
         print("在庫数:", quantity)
@@ -85,7 +133,7 @@ def register():
         
 
         # POST後も同じページを表示
-        return render_template('register.html')
+        return redirect('register.html')
       
     #GETのときもテンプレートを返す
     # GETなら「空の登録画面」を表示するだけ。
@@ -106,7 +154,7 @@ def history() : return render_template('history.html')
 
 @app.route('/stock')
 def stock() : return render_template('stock.html')
-print('現在の在庫状況')
+
 
 # templateフォルダ内のstock.htmlを表示
 
@@ -115,5 +163,6 @@ def edit() : return render_template('edit.html')
 # templateフォルダ内のstock.htmlを表示
 
 
-if __name__ == '__main__' : app.run(debug=True,port=5001)
+if __name__ == '__main__' : 
+    app.run(debug=True,port=5002)
 

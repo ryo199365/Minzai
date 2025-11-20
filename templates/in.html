@@ -8,36 +8,37 @@
 </head>
 
 <body>
-    <!-- <form method="get" action="/in">
-        <input type="text" name="search">
-        <button type="submit">検索</button>
-    </form>
-    <p>アイテム検索</p>
-    <p>ジャンル</p>
-    <a href="/in?genre=食品">食品</a>
-    <a href="/in?genre=衣類">衣類</a>
-    <a href="/in?genre=備品">備品</a>
-    <p>アイテム一覧</p> -->
-    <table>
+    <h1>入庫ページ</h1>
+
+    <table border="1">
         <tr>
             <th>アイテム名</th>
             <th>現在の在庫</th>
             <th>入庫数</th>
             <th>操作</th>
         </tr>
-        {% for item,stock in items %}
+
+        {% for item, stock in items %}
         <tr>
             <form method="post">
-                <td>{{item.name}}</td>
-                <td>{{stock.quantity}}</td>
-                <td><input type="number" name="quantity" min="1" required></td>
+                <td>{{ item.name }}</td>
+                <td>{{ stock.quantity }}</td>
                 <td>
-                    <a href="{{ url_for('stock_in_item', item_id=item.id) }}">入庫ページ</a>
+                    <input type="number" name="quantity" min="1" required>
+                </td>
+
+                <!-- どのアイテムに入庫するかを渡す -->
+                <input type="hidden" name="item_id" value="{{ item.id }}">
+
+
+                <td>
+                    <button type="submit">入庫する</button>
                 </td>
             </form>
         </tr>
         {% endfor %}
     </table>
+
     <a href="/">もどる</a>
 </body>
 

@@ -1,38 +1,41 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>出庫ページ</title>
 </head>
+
 <body>
-    <form method="get" action="/out">
-        <input type="text" name="search">
-        <button type="submit">検索</button>
-    </form><p>アイテム検索</p>
-    <p>ジャンル</p>
-    <a href="/out?genre=食品">食品</a>
-    <a href="/out?genre=衣類">衣類</a>
-    <a href="/out?genre=備品">備品</a>
-    <p>アイテム一覧</p>
-    <table>
+    <h2>出庫</h2>
+
+    <table border="1">
         <tr>
-            <th>名前</th>
-            <th>在庫数</th>
+            <th>アイテム名</th>
+            <th>現在の在庫</th>
+            <th>出庫数</th>
+            <th>操作</th>
         </tr>
+
+        {% for item, stock in items %}
         <tr>
-            <td>りんご</td>
-            <td>13</td>
+            <form method="post">
+                <td>{{ item.name }}</td>
+                <td>{{ stock.quantity }}</td>
+                <td>
+                    <input type="number" name="quantity" min="1" required>
+                </td>
+                <td>
+                    <!-- item_id を送る hidden -->
+                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                    <button type="submit">出庫する</button>
+                </td>
+            </form>
         </tr>
-        <tr>
-            <td>制服</td>
-            <td>4</td>
-        </tr>
-        <tr>
-            <td>マスク(箱)</td>
-            <td>2</td>
-        </tr>
+        {% endfor %}
     </table>
+
     <a href="/">もどる</a>
 </body>
+
 </html>
