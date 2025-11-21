@@ -16,12 +16,15 @@
             </label>
         </p>
         <p>ジャンル選択:
-            <select name="item_genre" id="">
-                <option value="食品">食品</option>
-                <option value="衣類">衣類</option>
-                <option value="備品">備品</option>
+            <select name="item_genre">
+                <option value="">-- 選択してください --</option> <!-- 最初は空 -->
+                {% for genre in genres %}
+                <option value="{{ genre.name }}">{{ genre.name }}</option>
+                {% endfor %}
             </select>
         </p>
+
+
         <p><label>新ジャンルの追加（任意）:
                 <input type="text" name="new_genre"></label>
         </p>

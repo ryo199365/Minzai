@@ -4,28 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>アイテム削除画面</title>
+    <title>アイテム削除</title>
 </head>
 
 <body>
     <h1>アイテム削除</h1>
 
-    <!-- アイテム検索 -->
-    <form method="get" action="/delete">
-        <input type="text" name="search">
-        <button type="submit">検索</button>
-    </form>
-    <p>アイテム検索</p>
+    <table border="1">
+        <tr>
+            <th>アイテム名</th>
+            <th>在庫数</th>
+            <th>操作</th>
+        </tr>
 
-    <!-- アイテム名編集 -->
-    <label for="item_name">アイテム名:</label>
-    <input type="text" id="item_name" name="item_name" value="りんご"><br><br>
+        {% for item, stock in items %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ stock.quantity }}</td>
+            <td>
+                <form method="post">
+                    <button type="submit" name="item_id" value="{{ item.id }}" onclick="return confirm('本当に削除しますか？');">
+                        削除
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 
-
-
-    <!-- 更新・戻るボタン -->
-    <button type="submit">更新</button>
-    <a href="/stock">戻る</a>
+    <br>
+    <a href="/">もどる</a>
 </body>
 
 </html>

@@ -1,0 +1,38 @@
+<form method="get" action="/history">
+    <input type="text" name="search_name" placeholder="アイテム名で検索" value="{{ search_name }}">
+    <select name="filter_genre">
+        <option value="">全ジャンル</option>
+        {% for genre in genres %}
+        <option value="{{ genre.name }}" {% if filter_genre==genre.name %}selected{% endif %}>
+            {{ genre.name }}
+        </option>
+        {% endfor %}
+    </select>
+    <!-- 日付範囲 -->
+    <label>開始日:
+        <input type="date" name="start_date" value="{{ start_date }}">
+    </label>
+    <label>終了日:
+        <input type="date" name="end_date" value="{{ end_date }}">
+    </label>
+    <button type="submit">検索</button>
+</form>
+
+<table border="1">
+    <tr>
+        <th>日時</th>
+        <th>アイテム名</th>
+        <th>ジャンル</th>
+        <th>数量</th>
+        <th>メモ</th>
+    </tr>
+    {% for history, item_name, genre_name in histories %}
+    <tr>
+        <td>{{ history.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        <td>{{ item_name }}</td>
+        <td>{{ genre_name }}</td>
+        <td>{{ history.change }}</td>
+        <td>{{ history.memo }}</td>
+    </tr>
+    {% endfor %}
+</table>

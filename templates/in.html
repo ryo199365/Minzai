@@ -8,6 +8,7 @@
 </head>
 
 <body>
+
     <h1>入庫ページ</h1>
 
     <table border="1">
@@ -26,20 +27,19 @@
                 <td>
                     <input type="number" name="quantity" min="1" required>
                 </td>
-
-                <!-- どのアイテムに入庫するかを渡す -->
-                <input type="hidden" name="item_id" value="{{ item.id }}">
-
-
                 <td>
-                    <button type="submit">入庫する</button>
+                    <button type="submit" name="item_id" value="{{ item.id }}">
+                        入庫
+                    </button>
                 </td>
             </form>
         </tr>
         {% endfor %}
     </table>
 
+    <br>
     <a href="/">もどる</a>
+
 </body>
 
 </html>
