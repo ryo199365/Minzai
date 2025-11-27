@@ -1,0 +1,220 @@
+/* ===== 全体設定 ===== */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* ===== ヘッダー ===== */
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px 0;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* ===== グリッドコンテナ（トップ画面カード用） ===== */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    padding: 0 20px;
+    max-width: 900px;
+    margin: 0 auto 50px auto;
+}
+
+/* ===== カード共通スタイル ===== */
+.card {
+    padding: 30px 0;
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== カード色分け ===== */
+.card.register {
+    background-color: #2196F3;
+}
+
+/* 新規登録 */
+.card.stock {
+    background-color: #FF9800;
+}
+
+/* 在庫確認 */
+.card.in {
+    background-color: #4CAF50;
+}
+
+/* 入庫 */
+.card.out {
+    background-color: #F44336;
+}
+
+/* 出庫 */
+.card.delete {
+    background-color: #9C27B0;
+}
+
+/* 削除 */
+.card.history {
+    background-color: #3F51B5;
+}
+
+/* 履歴 */
+
+/* ===== フォーム ===== */
+form {
+    margin: 20px auto;
+    max-width: 700px;
+}
+
+input[type="text"],
+select {
+    padding: 8px 12px;
+    margin-right: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+a.button-link {
+    text-decoration: none;
+    padding: 8px 16px;
+    background-color: #2196F3;
+    color: white;
+    border-radius: 6px;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+a.button-link:hover {
+    background-color: #1976D2;
+}
+
+/* ===== テーブル ===== */
+table {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto 50px auto;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* ===== 履歴の出庫ハイライト ===== */
+tr[style*="background-color: #ffe6e6"] {
+    background-color: #ffe6e6 !important;
+}
+
+/* ===== 画像表示 ===== */
+img {
+    border-radius: 6px;
+    max-width: 50px;
+}
+
+/* ===== カード内アイコン ===== */
+.card .icon {
+    font-size: 42px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* ===== カードをリッチに（アニメ + グラデ + 光沢） ===== */
+.card {
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.25), transparent 60%);
+    transform: scale(0);
+    transition: transform 0.4s ease-out;
+}
+
+.card:hover::before {
+    transform: scale(1);
+}
+
+/* ホバーで浮くアニメーション強化 */
+.card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 10px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* ===== レスポンシブ対応 ===== */
+@media screen and (max-width: 600px) {
+    .grid-container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    table,
+    th,
+    td {
+        font-size: 14px;
+    }
+
+    input[type="text"],
+    select,
+    button,
+    a.button-link {
+        font-size: 14px;
+        padding: 6px 10px;
+    }
+}

@@ -1,19 +1,51 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>トップ画面</title>
+    <title>在庫管理システム</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-    <h1>トップ画面</h1>
-    <p>在庫警告リストなどをここに表示予定</p>
-    <a href="/in">入庫ページ</a>
-    <a href="/out">出庫ページ</a>
-    <a href="/register">新規登録画面</a>
-    <a href="/delete">削除画面</a>
-    <a href="/history">履歴画面</a>
-    <a href="/stock">在庫確認画面</a>
-    <a href="/edit">アイテム編集画面</a>
+
+    <header>在庫管理システム</header>
+
+    <div class="grid-container">
+
+        <a href="/register" class="card register">
+            <div class="icon">📦</div>
+            新規登録
+        </a>
+
+        <a href="/stock" class="card stock">
+            <div class="icon">📊</div>
+            在庫確認
+        </a>
+
+        <a href="/in" class="card in">
+            <div class="icon">⬆️</div>
+            入庫
+        </a>
+
+        <a href="/out" class="card out">
+            <div class="icon">⬇️</div>
+            出庫
+        </a>
+
+        <a href="/delete" class="card delete">
+            <div class="icon">🗑️</div>
+            削除
+        </a>
+
+        <a href="/history" class="card history">
+            <div class="icon">📜</div>
+            履歴
+        </a>
+
+    </div>
+
 </body>
+
 </html>

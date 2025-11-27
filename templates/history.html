@@ -1,38 +1,57 @@
-<form method="get" action="/history">
-    <input type="text" name="search_name" placeholder="アイテム名で検索" value="{{ search_name }}">
-    <select name="filter_genre">
-        <option value="">全ジャンル</option>
-        {% for genre in genres %}
-        <option value="{{ genre.name }}" {% if filter_genre==genre.name %}selected{% endif %}>
-            {{ genre.name }}
-        </option>
-        {% endfor %}
-    </select>
-    <!-- 日付範囲 -->
-    <label>開始日:
-        <input type="date" name="start_date" value="{{ start_date }}">
-    </label>
-    <label>終了日:
-        <input type="date" name="end_date" value="{{ end_date }}">
-    </label>
-    <button type="submit">検索</button>
-</form>
+<!DOCTYPE html>
+<html lang="ja">
 
-<table border="1">
-    <tr>
-        <th>日時</th>
-        <th>アイテム名</th>
-        <th>ジャンル</th>
-        <th>数量</th>
-        <th>メモ</th>
-    </tr>
-    {% for history, item_name, genre_name in histories %}
-    <tr>
-        <td>{{ history.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
-        <td>{{ item_name }}</td>
-        <td>{{ genre_name }}</td>
-        <td>{{ history.change }}</td>
-        <td>{{ history.memo }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>入出庫履歴</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <h1>入出庫履歴</h1>
+
+    <!-- ナビリンク -->
+    <div class="nav-links">
+        <a href="{{ url_for('stock') }}" class="button-link">在庫確認</a>
+        <a href="/" class="button-link">トップ</a>
+    </div>
+
+    <!-- 検索フォーム -->
+    <form method="get" action="/history" class="search-form">
+        <input type="text" name="search_name" placeholder="アイテム名で検索" value="{{ search_name }}">
+        <select name="filter_genre">
+            <option value="">全ジャンル</option>
+            {% for genre in genres %}
+            <option value="{{ genre.name }}" {% if filter_genre==genre.name %}selected{% endif %}>
+                {{ genre.name }}
+            </option>
+            {% endfor %}
+        </select>
+        <button type="submit">検索</button>
+    </form>
+
+    <!-- 履歴テーブル -->
+    <table>
+        <tr>
+            <th>日時</th>
+            <th>アイテム名</th>
+            <th>ジャンル</th>
+            <th>数量</th>
+            <th>メモ</th>
+        </tr>
+
+        {% for h in histories %}
+        <tr {% if h.change < 0 %} style="background-color: #ffe6e6;" {% endif %}>
+            <td>{{ h.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td>{{ h.item_name }}</td>
+            <td>{{ h.genre_name }}</td>
+            <td>{{ h.change }}</td>
+            <td>{{ h.memo or '' }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</body>
+
+</html>

@@ -37,6 +37,8 @@ class Item(db.Model):
     # 作成日時を記録。デフォルトは現在日時。
     created_at = db.Column(db.DateTime,default=datetime.now)
     
+    file = db.Column(db.String(200))  # ← 画像ファイル名を保存するカラム
+    
     stock = db.relationship('Stock',uselist=False,backref='item')
     # 「アイテム → 在庫」 の 1対1 関係。
     # uselist=False は「1つのアイテムにつき1つの在庫情報」という意味。

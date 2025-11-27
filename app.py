@@ -158,11 +158,18 @@ def register():
         # 画像ファイル処理（任意）
         # ----------------------------
         if file and file.filename:
+            # 保存先フォルダの絶対パスを作成（存在しなければ作成）
+            upload_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'uploads')
+            os.makedirs(upload_folder, exist_ok=True)
+
             # ファイル名を安全化
             filename = secure_filename(file.filename)
-            # アップロード先に保存
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            print("ファイルがアップロードされました:", filename)
+
+            # ファイルを保存
+            save_path = os.path.join(upload_folder, filename)
+            file.save(save_path)
+
+            print("ファイルがアップロードされました:", save_path)
 
         # ----------------------------
         # デバッグ用出力（登録内容確認用）
@@ -268,18 +275,26 @@ def history():
             start_dt = datetime.strptime(start_date, '%Y-%m-%d')
             query = query.filter(StockHistory.created_at >= start_dt)
         except ValueError:
-            pass  # 日付が不正な場合は無視
+            pass
 
     if end_date:
         try:
-            # 終了日の23:59:59までを含める
             end_dt = datetime.strptime(end_date, '%Y-%m-%d')
             end_dt = end_dt.replace(hour=23, minute=59, second=59)
             query = query.filter(StockHistory.created_at <= end_dt)
         except ValueError:
             pass
 
-    histories = query.all()
+    # タプル (StockHistory, item_name, genre_name) を辞書に変換
+    histories = []
+    for h, item_name, genre_name in query.all():
+        histories.append({
+            "created_at": h.created_at,
+            "item_name": item_name,
+            "genre_name": genre_name,
+            "change": h.change,
+            "memo": h.memo
+        })
 
     # 全ジャンル取得
     genres = Genre.query.all()
@@ -293,6 +308,7 @@ def history():
         start_date=start_date,
         end_date=end_date
     )
+
 
 
 @app.route('/stock', methods=['GET'])
@@ -333,10 +349,10 @@ def stock():
 # templateフォルダ内のstock.htmlを表示
 
 @app.route('/edit')
-def edit() : return render_template('edit.html')
-# templateフォルダ内のstock.htmlを表示
+def edit():
+    return render_template('edit.html')
 
 
-if __name__ == '__main__' : 
-    app.run(debug=True,port=5002)
+if __name__ == '__main__':
+    app.run(debug=True, port=5002)
 

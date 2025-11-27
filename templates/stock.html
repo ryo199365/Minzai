@@ -1,46 +1,70 @@
-<form method="get" action="/stock">
-    <input type="text" name="search_name" placeholder="アイテム名で検索" value="{{ search_name }}">
-    <select name="filter_genre">
-        <option value="">全ジャンル</option>
-        {% for genre in genres %}
-        <option value="{{ genre.name }}" {% if filter_genre==genre.name %}selected{% endif %}>
-            {{ genre.name }}
-        </option>
-        {% endfor %}
-    </select>
-    <button type="submit">検索</button>
-</form>
+<!DOCTYPE html>
+<html lang="ja">
 
-<table border="1">
-    <tr>
-        <th>アイテム名</th>
-        <th>ジャンル</th>
-        <th>在庫数</th>
-        <th>画像</th>
-        <th>操作</th>
-    </tr>
-    {% for item, quantity, genre_name in items %}
-    <tr>
-        <td>{{ item.name }}</td>
-        <td>{{ genre_name }}</td>
-        <td>{{ quantity }}</td>
-        <td>
-            {% if item.file %}
-            <img src="{{ url_for('static', filename='uploads/' ~ item.file) }}" width="50">
-            {% else %}
-            なし
-            {% endif %}
-        </td>
-        <td>
-            <form action="/in" method="get" style="display:inline">
-                <input type="hidden" name="item_id" value="{{ item.id }}">
-                <button type="submit">入庫</button>
-            </form>
-            <form action="/out" method="get" style="display:inline">
-                <input type="hidden" name="item_id" value="{{ item.id }}">
-                <button type="submit">出庫</button>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在庫確認</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <h1>在庫確認</h1>
+
+    <!-- ナビリンク -->
+    <div class="nav-links">
+        <a href="{{ url_for('history') }}" class="button-link">履歴を見る</a>
+        <a href="/" class="button-link">トップ</a>
+    </div>
+
+    <!-- 検索フォーム -->
+    <form method="get" action="/stock" class="search-form">
+        <input type="text" name="search_name" placeholder="アイテム名で検索" value="{{ search_name }}">
+        <select name="filter_genre">
+            <option value="">全ジャンル</option>
+            {% for genre in genres %}
+            <option value="{{ genre.name }}" {% if filter_genre==genre.name %}selected{% endif %}>
+                {{ genre.name }}
+            </option>
+            {% endfor %}
+        </select>
+        <button type="submit">検索</button>
+    </form>
+
+    <!-- 在庫テーブル -->
+    <table>
+        <tr>
+            <th>アイテム名</th>
+            <th>ジャンル</th>
+            <th>在庫数</th>
+            <th>画像</th>
+            <th>操作</th>
+        </tr>
+        {% for item, quantity, genre_name in items %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ genre_name }}</td>
+            <td>{{ quantity }}</td>
+            <td>
+                {% if item.file %}
+                <img src="{{ url_for('static', filename='uploads/' ~ item.file) }}" width="50">
+                {% else %}
+                なし
+                {% endif %}
+            </td>
+            <td>
+                <form action="/in" method="get" style="display:inline">
+                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                    <button type="submit">入庫</button>
+                </form>
+                <form action="/out" method="get" style="display:inline">
+                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                    <button type="submit">出庫</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>
