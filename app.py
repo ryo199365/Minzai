@@ -158,18 +158,16 @@ def register():
         # 画像ファイル処理（任意）
         # ----------------------------
         if file and file.filename:
-            # 保存先フォルダの絶対パスを作成（存在しなければ作成）
             upload_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'uploads')
             os.makedirs(upload_folder, exist_ok=True)
-
-            # ファイル名を安全化
             filename = secure_filename(file.filename)
-
-            # ファイルを保存
             save_path = os.path.join(upload_folder, filename)
             file.save(save_path)
 
-            print("ファイルがアップロードされました:", save_path)
+            # ここで Item.file にファイル名をセット
+            item.file = filename
+            db.session.commit()  # 追加
+
 
         # ----------------------------
         # デバッグ用出力（登録内容確認用）

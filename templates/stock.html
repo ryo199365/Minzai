@@ -47,7 +47,7 @@
             <td>{{ quantity }}</td>
             <td>
                 {% if item.file %}
-                <img src="{{ url_for('static', filename='uploads/' ~ item.file) }}" width="50">
+                <img src="{{ url_for('static', filename='uploads/' ~ item.file) }}" width="50" alt="商品画像">
                 {% else %}
                 なし
                 {% endif %}
